@@ -12,8 +12,11 @@ class State:
     def __init__(self):
         self.States = {
         "Solid" : "Solid",
-        "NonSolid": "NonSolid"}
-        #These should be functions...
+        "NonSolid": "NonSolid",
+        "Projectile": "Projectile",
+        "MovableObject": "MovableObject",
+        "Player" : "Player"}
+    #These should be functions...
 
 
     def _setter(self, state = None, Mesh = None):
@@ -81,14 +84,16 @@ class State:
 
     def _Collision(self, Other):
         try:
-            if not isinstance(Other, state) and Other.state != "NonSolid":
-                Epsilon = self.CenterOfMass - Other.CenterOfMass
-                Delta = self.MaxNorm - Other.MaxNorm
+            if isinstance(Other, State) and Other.state = "Solid" or isinstance(Other, State) and Other.state = "MovableObject" or isinstance(Other, State) and Other.state = "Player":
+                Distance = (self.CenterOfMass - Other.CenterOfMass).norm()
+                Radius = self.MaxNorm + Other.MaxNorm
                 #Need to add __lq__ to vectors...
-                if delta < 0 and ...:
-                pass
+                if Distance < Radius:
+                    return True
+                else:
+                    return False
             else:
-                raise StateError("[System]: Can not compute _Collision method.")
+                raise StateError("[System]: Can not compute _Collision method, The object is not of correct 'State'.")
         except:
             raise StateError("[System]: Can not compute _Collision method.")
 
