@@ -6,8 +6,12 @@ class StateError(Exceptions):
 
 
 class State:
-
+    #This can actually be a dictonary and then lists inside, so each instance is stored in a list within a dictionary.
     ActiveMeshes = []
+    AllSolid = []
+    AllPlayers = []
+    AllMovableObjects = []
+    AllProjectiles = []
 
     def __init__(self):
         self.States = {
@@ -26,7 +30,7 @@ class State:
             try:
                 for key in self.States.keys():
                     if state == self.States(key):
-                        self.state = self.States(key)
+                        self.state = self.States(key) #Implement the above mentioned about dictionaries.
                     else:
                         pass
                     #Needs a small remake
@@ -87,8 +91,10 @@ class State:
             if isinstance(Other, State) and Other.state = "Solid" or isinstance(Other, State) and Other.state = "MovableObject" or isinstance(Other, State) and Other.state = "Player":
                 Distance = (self.CenterOfMass - Other.CenterOfMass).norm()
                 Radius = self.MaxNorm + Other.MaxNorm
-                #Need to add __lq__ to vectors...
-                if Distance < Radius:
+                #Need to add __lq__ to vectors..., Made a temporary fix
+                if Distance < Radius: #Might have to invert sign of inequality
+                    if Other.State == "Projectile":
+                        del Other #This line might not work.
                     return True
                 else:
                     return False
