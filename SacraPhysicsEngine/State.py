@@ -5,6 +5,9 @@ class StateError(Exceptions):
     pass
 
 
+#Make a decorator that adds gravity as attribute...
+
+
 class State:
     #This can actually be a dictonary and then lists inside, so each instance is stored in a list within a dictionary.
     ActiveMeshes = []

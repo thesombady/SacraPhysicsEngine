@@ -1,5 +1,7 @@
 from .State import State
 
+global FPS
+
 class Gravity:
     GravityPull = 9.82
     def __init__(self):
@@ -15,3 +17,6 @@ class Gravity:
 
     def __str__(self):
         return f'{None}'
+
+
+Gravity(60)
