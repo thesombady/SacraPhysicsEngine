@@ -1,7 +1,7 @@
 from sacramathengine import *
 from State import State, StateError
 
-class Movement:
+class Movement: #Will add fixed values for specific keys, a,d,w,s.
 
 
     def __init__(self, Vector, MeshObject = None):

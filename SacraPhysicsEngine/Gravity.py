@@ -31,7 +31,7 @@ class Gravity:
         except:
             pass
 
-    def _Update(self):
+    def _Update(self):#Add so that it can't go below the ground. Simple fix.
         NewMesh = self.MeshObject + self.GravityVector
         State = self.Object.state
         NewObject = State()
