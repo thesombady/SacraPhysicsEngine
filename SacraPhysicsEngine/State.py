@@ -1,5 +1,6 @@
 import sacramathengine
 from math import sin, cos, tan, pi
+from random import randint, random
 
 class StateError(Exceptions):
     pass
@@ -15,6 +16,8 @@ class State:
     AllPlayers = []
     AllMovableObjects = []
     AllProjectiles = []
+    Ground = []
+    Detail = 10
 
     def __init__(self):
         self.States = {
@@ -22,13 +25,16 @@ class State:
         "NonSolid": "NonSolid",
         "Projectile": "Projectile",
         "MovableObject": "MovableObject",
-        "Player" : "Player"}
+        "Player" : "Player",
+        "Ground": "Ground"}
     #These should be functions...
 
 
     def _setter(self, state = None, Mesh = None):
         if state == None:
             raise StateError("[System]: Each object needs a state.")
+        elif state == "ground" or "Ground":
+            pass
         else:
             try:
                 for key in self.States.keys():
@@ -51,6 +57,31 @@ class State:
                 self._CenterOfMass()
             except:
                 raise StateError("[System]: Cannot compute center of mass, fault is in _setter method.")
+
+    def MakeGroundPer(self):
+        GapValue = (-100, 100)
+        Size = (10000, 10000)
+        AllVectors = []
+
+        def HelperPer(Vector):
+            if not isinstance(Vector, vec3d):
+                raise TypeError("[System]: Cannot compute value")
+            else:
+                Value = Vector[1]
+                NewValue = randint(Value - 5, Value + 5)
+                return NewValue
+
+        for i in range(size[0]):
+            for k in range(size[1]):
+                if k == 0:
+                    AllVectors.append(SacraMathEngine.vec3d(i, 0, k))
+                else:
+                    jValue = HelperPer(AllVectors[-1])
+                    AllVectors.append(SacraMathEngine.vec3d(i, jValue, k))
+        Ground = SacraMathEngine.MeshObject()
+        for i in range(0, len(AllVectors)-2, 3):
+            TriangleVec = SacraMathEngine.Triangle(AllVectors[i], AllVectors[i+1], AllVectors[i+2])
+            Ground + TriangleVec
 
 
     def _CenterOfMass(self):
