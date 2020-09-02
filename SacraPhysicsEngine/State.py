@@ -58,26 +58,26 @@ class State:
             except:
                 raise StateError("[System]: Cannot compute center of mass, fault is in _setter method.")
 
-    def MakeGroundPer(self, Size, Name = "PerinGround"):
+    def MakeGroundPer(self, Size = (100,100), Name = "PerinGround"):
         """ Size have to be a tuple that describes the size of the terrain. """
         Mesh = []
 
-        for i in range(len(Size[0])+1):
+        for i in range((Size[0])+1):
             FirstSet = []
-            for k in range(len(Size[1])+1):
+            for k in range((Size[1])+1):
                 FirstSet.append(SacraMathEngine.vec3d(i,0,k))
             Mesh.append(FirstSet)
         for i in range(1, len(Mesh)):
             for k in range(1, len(Mesh[i])):
                 value = randint(Mesh[i-1][k].y - 2, Mesh[i][k-1].y + 2)
                 Mesh[i][k].y = value
-        Ground = MeshObject()
-        for i in range(len(Mesh)-1):
-            for j in range(len(Mesh)-1):
-                Ground + SacraMathEngine.Triangle(Mesh[i][k], Mesh[i+1][k], Mesh[i][k+1])
-        Ground.Save
-
-
+                print(type(Mesh[i][k]))
+        Ground = SacraMathEngine.MeshObject()
+        for i in range(0, len(Mesh)-1):
+            for k in range(0, len(Mesh)-1):
+                #print(SacraMathEngine.Triangle(Mesh[i][k], Mesh[i+1][k], Mesh[i][k+1]))
+                Ground = Ground + SacraMathEngine.Triangle(Mesh[i][k], Mesh[i+1][k], Mesh[i][k+1])
+        Ground.SaveToJson(Name)
 
 
     def _CenterOfMass(self):
@@ -139,3 +139,5 @@ class State:
 
     def __repr__(self):
         return f'{self.state}'
+
+Ground = State().MakeGroundPer(Size = (10,10), Name='TestOfGround')
