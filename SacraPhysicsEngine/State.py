@@ -1,6 +1,6 @@
 import SacraMathEngine
 from math import sin, cos, tan, pi
-from random import randint, random
+from random import randint
 
 class StateError(Exception):
     pass
@@ -60,8 +60,10 @@ class State:
 
     def MakeGroundPer(self, Size = (100,100), Name = "PerinGround"):
         """ Size have to be a tuple that describes the size of the terrain. """
+        #Can be improved, ran into the issue of having RecursionError($0) when doing it any other way.
+        #Tried increasing the recursion depth but didn't fix the issue.
         Mesh = []
-
+        self.state = "Solid"
         for i in range((Size[0])+1):
             FirstSet = []
             for k in range((Size[1])+1):
@@ -71,11 +73,9 @@ class State:
             for k in range(1, len(Mesh[i])):
                 value = randint(Mesh[i-1][k].y - 2, Mesh[i][k-1].y + 2)
                 Mesh[i][k].y = value
-                print(type(Mesh[i][k]))
         Ground = SacraMathEngine.MeshObject()
         for i in range(0, len(Mesh)-1):
             for k in range(0, len(Mesh)-1):
-                #print(SacraMathEngine.Triangle(Mesh[i][k], Mesh[i+1][k], Mesh[i][k+1]))
                 Ground = Ground + SacraMathEngine.Triangle(Mesh[i][k], Mesh[i+1][k], Mesh[i][k+1])
         Ground.SaveToJson(Name)
 
