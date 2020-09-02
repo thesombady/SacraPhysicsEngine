@@ -1,8 +1,8 @@
-import sacramathengine
+import SacraMathEngine
 from math import sin, cos, tan, pi
 from random import randint, random
 
-class StateError(Exceptions):
+class StateError(Exception):
     pass
 
 
@@ -58,45 +58,26 @@ class State:
             except:
                 raise StateError("[System]: Cannot compute center of mass, fault is in _setter method.")
 
-    def MakeGroundPer(self):
-        GapValue = (-100, 100)
-        Size = (10, 10)
-        AllVectors = []
-        for i in range(Size[0]):
-            AllKVectors = []
-            for k in range(Size[1]):
-                AllKVectors.append(SacraMathEngine.vec3d(i,0,k))
-            AllVectors.append(AllKVectors)
+    def MakeGroundPer(self, Size, Name = "PerinGround"):
+        """ Size have to be a tuple that describes the size of the terrain. """
+        Mesh = []
 
-        def HelperPer(ListOfVectors):
-            if not isinstance(ListOfVectors, list):
-                raise TypeError("[System]: Cannot compute value.")
-            else:
-                for i in range(len(ListOfVectors)):
-                    ListOfVectors[i].y = randint(ListOfVectors[i].y -5, ListOfVectors[i].y + 5)
+        for i in range(len(Size[0])+1):
+            FirstSet = []
+            for k in range(len(Size[1])+1):
+                FirstSet.append(SacraMathEngine.vec3d(i,0,k))
+            Mesh.append(FirstSet)
+        for i in range(1, len(Mesh)):
+            for k in range(1, len(Mesh[i])):
+                value = randint(Mesh[i-1][k].y - 2, Mesh[i][k-1].y + 2)
+                Mesh[i][k].y = value
+        Ground = MeshObject()
+        for i in range(len(Mesh)-1):
+            for j in range(len(Mesh)-1):
+                Ground + SacraMathEngine.Triangle(Mesh[i][k], Mesh[i+1][k], Mesh[i][k+1])
+        Ground.Save
 
 
-        """
-        def HelperPer(Vector):
-            if not isinstance(Vector, vec3d):
-                raise TypeError("[System]: Cannot compute value")
-            else:
-                Value = Vector[1]
-                NewValue = randint(Value - 5, Value + 5)
-                return NewValue
-
-        for i in range(size[0]):
-            for k in range(size[1]):
-                if k == 0:
-                    AllVectors.append(SacraMathEngine.vec3d(i, 0, k))
-                else:
-                    jValue = HelperPer(AllVectors[-1])
-                    AllVectors.append(SacraMathEngine.vec3d(i, jValue, k))
-        Ground = SacraMathEngine.MeshObject()
-        for i in range(0, len(AllVectors)-2, 3):
-            TriangleVec = SacraMathEngine.Triangle(AllVectors[i], AllVectors[i+1], AllVectors[i+2])
-            Ground + TriangleVec
-        """
 
 
     def _CenterOfMass(self):
@@ -131,13 +112,13 @@ class State:
             except:
                 raise StateError("[System]: Can not compute center of mass.")
         else:
-            raise TypeError("[System]: Can not load the center of mass, due to Type-Error of the mesh."):
+            raise TypeError("[System]: Can not load the center of mass, due to Type-Error of the mesh.")
 
 
 
     def _Collision(self, Other):
         try:
-            if isinstance(Other, State) and Other.state = "Solid" or isinstance(Other, State) and Other.state = "MovableObject" or isinstance(Other, State) and Other.state = "Player":
+            if isinstance(Other, State) and Other.state == "Solid" or isinstance(Other, State) and Other.state == "MovableObject" or isinstance(Other, State) and Other.state == "Player":
                 Distance = (self.CenterOfMass - Other.CenterOfMass).norm()
                 Radius = self.MaxNorm + Other.MaxNorm
                 #Need to add __lq__ to vectors..., Made a temporary fix

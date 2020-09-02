@@ -1,30 +1,20 @@
 from random import randint
 from SacraMathEngine import *
+import sys
+sys.setrecursionlimit(2000)
 
-def Helper(ListOfVectors):
-    for i in range(len(ListOfVectors)):
-        Counter = True
-        def Helper2():
-            Value = randint(ListOfVectors[i-1].y -5, ListOfVectors[i-1].y +5)
-            return Value
-        if i == 0:
-            ListOfVectors[0].y = randint(-10, 10)
-        else:
-            Value = Helper2()
-            while Counter:
-                if abs(Value - ListOfVectors[i-1].y) < 3:
-                    ListOfVectors[i].y = Value
-                    Counter = False
-                else:
-                    Value = Helper2()
+XYPlane = []
+for i in range(10):
+    ZPlane = []
+    for k in range(10):
+        ZPlane.append(vec3d(i,0,k))
+    XYPlane.append(ZPlane)
+#print(XYPlane)
 
-
-    print(ListOfVectors)
-
-AllVectors = []
-for i in range(4):
-    AllKVectors = []
-    for k in range(4):
-        AllKVectors.append(vec3d(i,0,k))
-    AllVectors.append(AllKVectors)
-    Helper(AllKVectors)
+def PerlinBuilder(Mesh):
+    for i in range(1, len(Mesh)):
+        for k in range(1, len(Mesh[i])):
+            Value = randint(Mesh[i-1][k].y - 2, Mesh[i][k-1].y + 2)
+            Mesh[i][k].y = Value
+PerlinBuilder(XYPlane)
+print(XYPlane)
