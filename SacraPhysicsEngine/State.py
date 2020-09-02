@@ -60,9 +60,23 @@ class State:
 
     def MakeGroundPer(self):
         GapValue = (-100, 100)
-        Size = (10000, 10000)
+        Size = (10, 10)
         AllVectors = []
+        for i in range(Size[0]):
+            AllKVectors = []
+            for k in range(Size[1]):
+                AllKVectors.append(SacraMathEngine.vec3d(i,0,k))
+            AllVectors.append(AllKVectors)
 
+        def HelperPer(ListOfVectors):
+            if not isinstance(ListOfVectors, list):
+                raise TypeError("[System]: Cannot compute value.")
+            else:
+                for i in range(len(ListOfVectors)):
+                    ListOfVectors[i].y = randint(ListOfVectors[i].y -5, ListOfVectors[i].y + 5)
+
+
+        """
         def HelperPer(Vector):
             if not isinstance(Vector, vec3d):
                 raise TypeError("[System]: Cannot compute value")
@@ -82,6 +96,7 @@ class State:
         for i in range(0, len(AllVectors)-2, 3):
             TriangleVec = SacraMathEngine.Triangle(AllVectors[i], AllVectors[i+1], AllVectors[i+2])
             Ground + TriangleVec
+        """
 
 
     def _CenterOfMass(self):
