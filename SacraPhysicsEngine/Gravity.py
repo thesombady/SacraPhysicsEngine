@@ -10,7 +10,7 @@ class GravityIssue(Exception):
 class Gravity:
     GravityPull = 9.82
 
-    GravityVector = vec3d(0, -self.GravityPull, 0)
+    GravityVector = vec3d(0, -GravityPull, 0)
 
     def __init__(self):
         pass
@@ -18,7 +18,7 @@ class Gravity:
     def _setter(self, Object = None):
         if Object == None:
             raise TypeError("[System]: Gravity must have an object")
-        elif is not isinstance(Object, State):
+        elif not isinstance(Object, State):
             raise TypeError("[System]: Gravity must have an State-object")
         else:
             try:
