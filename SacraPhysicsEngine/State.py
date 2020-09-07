@@ -58,10 +58,11 @@ class State:
             except:
                 raise StateError("[System]: Cannot compute center of mass, fault is in _setter method.")
 
-    def MakeGroundPer(self, Size = (100,100), Name = "PerinGround"):
+    def MakeGroundPer(self, Size = (10,10), Name = "PerinGround"):
         """ Size have to be a tuple that describes the size of the terrain. """
         #Can be improved, ran into the issue of having RecursionError($0) when doing it any other way.
         #Tried increasing the recursion depth but didn't fix the issue.
+        """
         Mesh = []
         self.state = "Solid"
         for i in range((Size[0])+1):
@@ -78,6 +79,30 @@ class State:
             for k in range(0, len(Mesh)-1):
                 Ground = Ground + SacraMathEngine.Triangle(Mesh[i][k], Mesh[i+1][k], Mesh[i][k+1])
         Ground.SaveToJson(Name)
+        """
+        XY = [[SacraMathEngine.vec3d(i,j,0) for i in range(Size[0])] for j in range(Size[1])]
+        XY[0][0].z = randint(-1,1)
+
+
+        def RecursiveFunctionForPer(list1, list2 = None):
+            try:
+                list1[0].z = randint(-1, 1)
+            except Exception as E:
+                raise E
+            try:
+                for i in range(1, len(list1)):
+                    Value = randint(list1[i-1].z - 1, list1[i-1].z + 1)
+                    list1[i].z = Value
+            except Exception as E:
+                raise E
+            if list2 != None:
+                pass
+
+
+        RecursiveFunctionForPer(XY[0], XY[1])
+        print(XY)
+
+
 
 
     def _CenterOfMass(self):
