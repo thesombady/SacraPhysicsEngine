@@ -165,4 +165,4 @@ class State:
     def __repr__(self):
         return f'{self.state}'
 
-Ground = State().MakeGroundPer(Size = (10,10), Name='TestOfGround')
+#Ground = State().MakeGroundPer(Size = (10,10), Name='TestOfGround')
